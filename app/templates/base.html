@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форматирование документов</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <a class="logo" href="{{ url_for('main.index') }}">Форматирование документов</a>
+        <nav class="nav">
+            <a href="{{ url_for('main.index') }}">Главная</a>
+            <a href="{{ url_for('main.mode_index', doc_type='certificate') }}">Удостоверения</a>
+            <a href="{{ url_for('main.mode_index', doc_type='diploma') }}">Дипломы</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alerts">
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

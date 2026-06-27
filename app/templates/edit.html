@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card edit-card">
+    <div class="badge">{{ config.title }}</div>
+    <h1>Редактирование строки №{{ student.id }}</h1>
+    <p>Измените данные и сохраните их перед формированием документов.</p>
+
+    <form method="POST" class="edit-form">
+        {% for key, value in fields.items() %}
+            <label>
+                <span>{{ key }}</span>
+                <input type="text" name="{{ key }}" value="{{ value }}">
+            </label>
+        {% endfor %}
+
+        <div class="form-actions">
+            <button class="btn" type="submit">Сохранить</button>
+            <a class="btn-secondary link-btn" href="{{ url_for('main.preview', doc_type=doc_type) }}">Назад</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

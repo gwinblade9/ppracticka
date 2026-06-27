@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card">
+    <div class="badge">Word / Excel</div>
+    <h1>Автоматизация документов</h1>
+    <p>
+        Выберите, что нужно сформировать. Для каждого раздела загружается своя таблица,
+        данные можно проверить, отредактировать и потом скачать готовые документы.
+    </p>
+
+    <div class="mode-grid">
+        <a class="mode-card" href="{{ url_for('main.mode_index', doc_type='diploma') }}">
+            <span class="mode-icon">🎓</span>
+            <h2>Создать дипломы</h2>
+            <p>Формирует общий файл дипломов, общий файл вкладышей и сводную ведомость.</p>
+        </a>
+
+        <a class="mode-card" href="{{ url_for('main.mode_index', doc_type='certificate') }}">
+            <span class="mode-icon">📄</span>
+            <h2>Создать удостоверения</h2>
+            <p>Формирует удостоверения по уже настроенному бланку.</p>
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card wide-card">
+    <div class="top-row">
+        <div>
+            <div class="badge">{{ config.title }}</div>
+            <h1>Данные для печати {{ config.single_title }}</h1>
+            <p>Проверьте строки перед созданием документов.</p>
+        </div>
+
+        {% if students %}
+        <form action="{{ url_for('main.generate', doc_type=doc_type) }}" method="POST">
+            <button class="btn" type="submit">
+                {% if doc_type == 'diploma' %}Сформировать дипломы{% else %}Сформировать удостоверения{% endif %}
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if not students %}
+        <div class="empty">
+            Данные пока не загружены.
+            <a href="{{ url_for('main.mode_index', doc_type=doc_type) }}">Загрузить файл</a>
+        </div>
+    {% else %}
+        <div class="table-wrap">
+            <table class="data-table" id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        {% for header in headers %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr class="student-row">
+                        <td>{{ loop.index }}</td>
+                        {% for header in headers %}
+                            <td>{{ student.get(header, '') }}</td>
+                        {% endfor %}
+                        <td>
+                            <a class="btn-small" href="{{ url_for('main.edit_student', doc_type=doc_type, student_id=student.id) }}">Редактировать</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-box">
+            <button class="btn-secondary" id="showMoreBtn" type="button">Показать ещё</button>
+            <span id="rowsInfo"></span>
+        </div>
+
+        <div class="clear-box">
+            <h2>Хотите убрать нынешнюю таблицу и загрузить новую?</h2>
+            <p>Нажмите «Да», если документы уже сформированы и текущие данные больше не нужны.</p>
+            <form action="{{ url_for('main.clear_current_table', doc_type=doc_type) }}" method="POST" class="clear-actions">
+                <button class="btn-danger" name="answer" value="yes" type="submit">Да, очистить таблицу</button>
+                <button class="btn-dark" name="answer" value="no" type="submit">Нет, оставить</button>
+            </form>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

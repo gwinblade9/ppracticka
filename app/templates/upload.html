@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card upload-card">
+    <div class="badge">{{ config.title }}</div>
+    <h1>{{ config.upload_title }}</h1>
+    <p>{{ config.description }}</p>
+
+    <form class="upload-form" action="{{ url_for('main.upload_file', doc_type=doc_type) }}" method="POST" enctype="multipart/form-data">
+        <label class="file-label">
+            <span>Выберите файл</span>
+            <input type="file" name="file" accept=".docx,.xlsx" required>
+        </label>
+        <button class="btn" type="submit">Загрузить таблицу</button>
+    </form>
+
+    <div class="hint">
+        {% if doc_type == 'diploma' %}
+            Для дипломов загружайте файл <b>Итоговая.xlsx</b> / <b>Итоговая ведомость.xlsx</b>.
+            Шаблоны диплома, вкладыша и сводной ведомости уже лежат в проекте.
+        {% else %}
+            Для удостоверений загружайте ведомость или таблицу с данными слушателей.
+        {% endif %}
+        После загрузки откроется таблица для проверки и редактирования.
+    </div>
+
+    <div class="form-actions bottom-actions">
+        <a class="btn-secondary link-btn" href="{{ url_for('main.preview', doc_type=doc_type) }}">Открыть текущую таблицу</a>
+        <a class="btn-dark link-btn" href="{{ url_for('main.index') }}">Назад на главную</a>
+    </div>
+</section>
+{% endblock %}
